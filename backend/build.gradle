@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'com.publisment-management'
+group = 'com.publishment-management'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -28,19 +28,22 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// MapStruct
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	implementation 'org.mapstruct:mapstruct:1.6.3'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
 	// Lombok + MapStruct uyumu
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
 	// PostgreSQL
 	runtimeOnly 'org.postgresql:postgresql'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	
 }
 
 tasks.named('test') {
