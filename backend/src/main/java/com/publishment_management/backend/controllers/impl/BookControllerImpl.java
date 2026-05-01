@@ -42,7 +42,7 @@ public class BookControllerImpl extends RestBaseController implements IBookContr
 	}
 
 	@Override
-	@PostMapping(path = "/list")
+	@PostMapping(path = "/save")
 	public ResponseEntity<RootEntity<DtoBook>> saveBook(@Valid @RequestBody DtoBookIU book) {
 		return ok(bookService.saveBook(book));
 	}
@@ -56,7 +56,7 @@ public class BookControllerImpl extends RestBaseController implements IBookContr
 	
 
 	@Override
-	@PutMapping(path = "/change{id}")
+	@PutMapping(path = "/change/{id}")
 	public ResponseEntity<RootEntity<DtoBook>> changeBook(@PathVariable Integer id,@Valid @RequestBody DtoBookIU book) {
 		return ok(bookService.changeBook(id, book));
 	}

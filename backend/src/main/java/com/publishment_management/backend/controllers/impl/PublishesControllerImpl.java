@@ -2,13 +2,9 @@ package com.publishment_management.backend.controllers.impl;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.publishment_management.backend.controllers.IPublishesController;
 import com.publishment_management.backend.controllers.RestBaseController;
@@ -28,7 +24,7 @@ public class PublishesControllerImpl extends RestBaseController implements IPubl
 	
 	@Override
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<RootEntity<DtoPublishes>> getPublishesById(Integer id) {
+	public ResponseEntity<RootEntity<DtoPublishes>> getPublishesById(@PathVariable Integer id) {
 		return ok(publishesService.getPublishesById(id));
 	}
 
@@ -40,21 +36,21 @@ public class PublishesControllerImpl extends RestBaseController implements IPubl
 	}
 
 	@Override
-	@PostMapping(path = "/list")
-	public ResponseEntity<RootEntity<DtoPublishes>> savePublishes(DtoPublishesIU publishes) {
+	@PostMapping(path = "/save")
+	public ResponseEntity<RootEntity<DtoPublishes>> savePublishes(@Valid @RequestBody DtoPublishesIU publishes) {
 		return ok(publishesService.savePublishes(publishes));
 	}
 
 	@Override
 	@DeleteMapping(path = "/delete/{id}")
-	public ResponseEntity<RootEntity<Void>> deletePublishes(Integer id) {
+	public ResponseEntity<RootEntity<Void>> deletePublishes(@PathVariable Integer id) {
 		publishesService.deletePublishes(id);
 		return ok(null);
 	}
 
 	@Override
 	@PutMapping(path = "/change/{id}")
-	public ResponseEntity<RootEntity<DtoPublishes>> changePublishes(Integer id, DtoPublishesIU changedPublishes) {
+	public ResponseEntity<RootEntity<DtoPublishes>> changePublishes(@PathVariable Integer id,@Valid @RequestBody DtoPublishesIU changedPublishes) {
 		// TODO Auto-generated method stub
 		return ok(publishesService.changePublishes(id, changedPublishes));
 	}

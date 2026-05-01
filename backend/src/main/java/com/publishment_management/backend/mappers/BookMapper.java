@@ -10,15 +10,16 @@ import com.publishment_management.backend.dtos.DtoBook;
 import com.publishment_management.backend.dtos.DtoBookIU;
 import com.publishment_management.backend.models.Book;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {PublishesMapper.class})
 public interface BookMapper {
 
 	@Mapping(target = "id", ignore = true)
 	Book toEntity(DtoBookIU dtoBookIU);
-	
+
 	DtoBook toDto(Book book);
-	
+
 	List<DtoBook> toDtoList(List<Book> books);
-	
+
+	@Mapping(target = "id", ignore = true)
 	void copyBookFromDtoIU(DtoBookIU dto, @MappingTarget Book entity);
 }
