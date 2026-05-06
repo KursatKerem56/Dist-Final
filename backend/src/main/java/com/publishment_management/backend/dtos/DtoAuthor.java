@@ -19,6 +19,8 @@ public class DtoAuthor {
 	private String name;
 	
 	private String address;
+
+	private String image;
 	
 	@JsonIgnoreProperties({"authorId" , "authorName"})
 	private List<DtoPublishes> publishes;

@@ -14,4 +14,6 @@ public class DtoAuthorIU {
 	private String name;
 	
 	private String address;
+
+	private String image;
 }

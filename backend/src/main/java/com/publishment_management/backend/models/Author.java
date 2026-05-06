@@ -34,6 +34,9 @@ public class Author {
 	@Column(name = "address")
 	private String address;
 	
+	@Column(name = "image", columnDefinition = "TEXT")
+	private String image;
+
 	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("author")
 	private List<Publishes> publishes = new ArrayList<>(); //we can save an author without its publishes and use it
