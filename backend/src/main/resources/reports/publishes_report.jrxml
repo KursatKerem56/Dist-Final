@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="publishes_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5b7dba58-6c89-4c07-9ea6-8ee4d4b12301">
+
+    <field name="id" class="java.lang.Integer"/>
+    <field name="authorName" class="java.lang.String"/>
+    <field name="bookTitle" class="java.lang.String"/>
+    <field name="edition" class="java.lang.Integer"/>
+    <field name="addedDate" class="java.time.LocalDate"/>
+
+    <title>
+        <band height="45">
+            <staticText>
+                <reportElement x="0" y="5" width="555" height="30" uuid="c15cdfa8-8ad7-44ad-91e5-07f43e563101"/>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Publishes Report]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText><reportElement x="0" y="0" width="50" height="20" uuid="ff595f97-e289-4652-8320-f661361a8e01"/><textElement><font isBold="true"/></textElement><text><![CDATA[ID]]></text></staticText>
+            <staticText><reportElement x="60" y="0" width="140" height="20" uuid="6d87b8b8-f99d-4883-93a8-2600a1541b02"/><textElement><font isBold="true"/></textElement><text><![CDATA[Author]]></text></staticText>
+            <staticText><reportElement x="210" y="0" width="140" height="20" uuid="ed7581ff-15ab-4819-a286-94ea5e593003"/><textElement><font isBold="true"/></textElement><text><![CDATA[Book]]></text></staticText>
+            <staticText><reportElement x="360" y="0" width="70" height="20" uuid="f0cd1a79-f8e9-44c9-9aa1-71e06e377004"/><textElement><font isBold="true"/></textElement><text><![CDATA[Edition]]></text></staticText>
+            <staticText><reportElement x="440" y="0" width="100" height="20" uuid="1f38163d-11b0-4e09-a2d9-030e8063ee05"/><textElement><font isBold="true"/></textElement><text><![CDATA[Added Date]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="24">
+            <textField><reportElement x="0" y="0" width="50" height="20" uuid="67ff54af-ffb2-4b96-8d5b-7f17dc622001"/><textFieldExpression><![CDATA[$F{id}]]></textFieldExpression></textField>
+            <textField><reportElement x="60" y="0" width="140" height="20" uuid="a9859a6b-0884-4625-9e3a-dcc050f74002"/><textFieldExpression><![CDATA[$F{authorName}]]></textFieldExpression></textField>
+            <textField><reportElement x="210" y="0" width="140" height="20" uuid="e33e95d0-b030-4520-bffd-14fdb86c7303"/><textFieldExpression><![CDATA[$F{bookTitle}]]></textFieldExpression></textField>
+            <textField><reportElement x="360" y="0" width="70" height="20" uuid="fb63e044-0697-4051-8ae0-582a7b64be04"/><textFieldExpression><![CDATA[$F{edition}]]></textFieldExpression></textField>
+            <textField><reportElement x="440" y="0" width="100" height="20" uuid="ddfa1b1a-5212-4282-bcf4-7983628e6905"/><textFieldExpression><![CDATA[$F{addedDate} == null ? "" : $F{addedDate}.toString()]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>

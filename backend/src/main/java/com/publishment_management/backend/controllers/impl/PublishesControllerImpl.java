@@ -3,6 +3,8 @@ package com.publishment_management.backend.controllers.impl;
 import java.util.List;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +56,15 @@ public class PublishesControllerImpl extends RestBaseController implements IPubl
 		// TODO Auto-generated method stub
 		return ok(publishesService.changePublishes(id, changedPublishes));
 	}
-	
-	
+
+	@GetMapping(path = "/pdf")
+	public ResponseEntity<byte[]> createPdfReport() {
+		byte[] pdf = publishesService.createPublishesPdfReport();
+
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=publishes-report.pdf")
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(pdf);
+	}
 
 }

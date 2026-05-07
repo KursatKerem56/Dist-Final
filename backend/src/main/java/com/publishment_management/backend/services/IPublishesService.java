@@ -15,4 +15,6 @@ public interface IPublishesService {
 	public void deletePublishes(Integer id);
 	
 	public DtoPublishes changePublishes(Integer id, DtoPublishesIU changedPublishes);
+
+	public byte[] createPublishesPdfReport();
 }

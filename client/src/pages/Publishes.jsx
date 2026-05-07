@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 
 export default function Publishes() {
   const [publishes, setPublishes] = useState([]);
@@ -46,24 +44,19 @@ export default function Publishes() {
 
     loadData();
   };
-const createPdfReport = () => {
-  const doc = new jsPDF();
-
-  doc.text("Publishes Report", 14, 15);
-
-  autoTable(doc, {
-    startY: 25,
-    head: [["ID", "Author", "Book", "Edition", "Added Date"]],
-    body: publishes.map((publish) => [
-      publish.id,
-      publish.authorName,
-      publish.bookTitle,
-      publish.edition,
-      publish.addedDate,
-    ]),
+const createPdfReport = async () => {
+  const response = await api.get("/publishes/pdf", {
+    responseType: "blob",
   });
 
-  doc.save("publishes-report.pdf");
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.setAttribute("download", "publishes-report.pdf");
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 };
   return (
     <section>
