@@ -3,6 +3,8 @@ import api from "../services/api";
 
 export default function Authors() {
   const [authors, setAuthors] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+
   const [form, setForm] = useState({
     name: "",
     address: "",
@@ -20,7 +22,6 @@ export default function Authors() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
 
     const reader = new FileReader();
@@ -35,7 +36,11 @@ export default function Authors() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await api.post("/author/save", form);
+    if (editingId) {
+      await api.put(`/author/change/${editingId}`, form);
+    } else {
+      await api.post("/author/save", form);
+    }
 
     setForm({
       name: "",
@@ -43,7 +48,33 @@ export default function Authors() {
       image: "",
     });
 
+    setEditingId(null);
     loadAuthors();
+  };
+
+  const handleEdit = (author) => {
+    setEditingId(author.id);
+    setForm({
+      name: author.name,
+      address: author.address,
+      image: author.image || "",
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this author?")) return;
+
+    await api.delete(`/author/delete/${id}`);
+    loadAuthors();
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setForm({
+      name: "",
+      address: "",
+      image: "",
+    });
   };
 
   return (
@@ -69,7 +100,15 @@ export default function Authors() {
 
         <input type="file" accept="image/*" onChange={handleImageChange} />
 
-        <button type="submit">Add Author</button>
+        <button type="submit">
+          {editingId ? "Update Author" : "Add Author"}
+        </button>
+
+        {editingId && (
+          <button type="button" onClick={cancelEdit}>
+            Cancel
+          </button>
+        )}
       </form>
 
       {form.image && (
@@ -87,6 +126,7 @@ export default function Authors() {
             <th>Image</th>
             <th>Author Name</th>
             <th>Address</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -99,12 +139,29 @@ export default function Authors() {
                   <img
                     src={author.image}
                     alt={author.name}
-                    style={{ width: "70px", height: "70px", objectFit: "cover" }}
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      objectFit: "cover",
+                    }}
                   />
                 )}
               </td>
               <td>{author.name}</td>
               <td>{author.address}</td>
+              <td>
+                <button type="button" onClick={() => handleEdit(author)}>
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDelete(author.id)}
+                  style={{ marginLeft: "8px", background: "#ef4444" }}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
