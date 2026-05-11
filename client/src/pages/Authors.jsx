@@ -11,6 +11,14 @@ export default function Authors() {
     image: "",
   });
 
+  const clearForm = () => {
+    setForm({
+      name: "",
+      address: "",
+      image: "",
+    });
+  };
+
   const loadAuthors = async () => {
     const response = await api.get("/author/list");
     setAuthors(response.data.data);
@@ -42,11 +50,7 @@ export default function Authors() {
       await api.post("/author/save", form);
     }
 
-    setForm({
-      name: "",
-      address: "",
-      image: "",
-    });
+    clearForm();
 
     setEditingId(null);
     loadAuthors();
@@ -65,16 +69,14 @@ export default function Authors() {
     if (!window.confirm("Are you sure you want to delete this author?")) return;
 
     await api.delete(`/author/delete/${id}`);
+    clearForm();
+    setEditingId(null);
     loadAuthors();
   };
 
   const cancelEdit = () => {
     setEditingId(null);
-    setForm({
-      name: "",
-      address: "",
-      image: "",
-    });
+    clearForm();
   };
 
   return (

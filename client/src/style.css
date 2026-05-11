@@ -97,13 +97,14 @@ table {
 th {
   background: #eaf2ff;
   color: #1e3a8a;
-  text-align: left;
+  text-align: center;
 }
 
 th,
 td {
   border-bottom: 1px solid #e5e7eb;
   padding: 13px;
+  text-align: center;
 }
 
 tr:hover {

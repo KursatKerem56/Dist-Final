@@ -3,10 +3,18 @@ import api from "../services/api";
 
 export default function Books() {
   const [books, setBooks] = useState([]);
+  const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState({
     title: "",
     publisher: "",
   });
+
+  const clearForm = () => {
+    setForm({
+      title: "",
+      publisher: "",
+    });
+  };
 
   const loadBooks = async () => {
     const response = await api.get("/book/list");
@@ -20,14 +28,37 @@ export default function Books() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await api.post("/book/save", form);
+    if (editingId) {
+      await api.put(`/book/change/${editingId}`, form);
+    } else {
+      await api.post("/book/save", form);
+    }
 
-    setForm({
-      title: "",
-      publisher: "",
-    });
-
+    clearForm();
+    setEditingId(null);
     loadBooks();
+  };
+
+  const handleEdit = (book) => {
+    setEditingId(book.id);
+    setForm({
+      title: book.title,
+      publisher: book.publisher,
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this book?")) return;
+
+    await api.delete(`/book/delete/${id}`);
+    clearForm();
+    setEditingId(null);
+    loadBooks();
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    clearForm();
   };
 
   return (
@@ -51,7 +82,13 @@ export default function Books() {
           required
         />
 
-        <button type="submit">Add Book</button>
+        <button type="submit">{editingId ? "Update Book" : "Add Book"}</button>
+
+        {editingId && (
+          <button type="button" onClick={cancelEdit}>
+            Cancel
+          </button>
+        )}
       </form>
 
       <table>
@@ -60,6 +97,7 @@ export default function Books() {
             <th>ID</th>
             <th>Book Title</th>
             <th>Publisher</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -69,6 +107,19 @@ export default function Books() {
               <td>{book.id}</td>
               <td>{book.title}</td>
               <td>{book.publisher}</td>
+              <td>
+                <button type="button" onClick={() => handleEdit(book)}>
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDelete(book.id)}
+                  style={{ marginLeft: "8px", background: "#ef4444" }}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
